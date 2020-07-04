@@ -12,6 +12,7 @@ from wand.color import Color
 
 import wrapt
 from copy import copy
+from pprint import pprint
 
 class Layer(ABC):
     protected_names = ["null"]
@@ -20,7 +21,10 @@ class Layer(ABC):
     lifting."""
     def __init__(self, name, x_attrs_req, y_attrs_req, *args, **kwargs):
         self.set_defaults(name, x_attrs_req, y_attrs_req, *args, **kwargs)
+        # all derivative classes to handle the dimenstions themselves
+        # if "x" not in self.dimensions: 
         self.dimensions["x"] = XDimension(self.x_attributes_required, self, **kwargs)
+        # if "y" not in self.dimensions:
         self.dimensions["y"] = YDimension(self.y_attributes_required, self, **kwargs)
 
     def set_defaults(self, name, x_attrs_req, y_attrs_req, *args, **kwargs):
@@ -149,7 +153,6 @@ class Layer(ABC):
             if self.y.is_bounded:
                 return self.y.bounds[mapped_y_key]
             else:
-                pprint(self.y.__dict__)
                 raise NotBoundedError(f"{self.name}.y.bounds have not been initialised.")
         else:
             raise ValueError("Invalid key")

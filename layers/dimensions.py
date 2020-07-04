@@ -4,6 +4,7 @@ from layers.attribute import Attribute
 from layers.attribute import StringAttribute as SA
 from layers.attribute import NumericAttribute as NA
 from layers.attribute import AddAttribute as AA
+from pprint import pprint
 
 class Dimension():
     def __init__(self, name, pct, mapping, amount, layer, bounds=None, **kwargs):
@@ -36,6 +37,8 @@ class Dimension():
         """Validates attribute keys to make sure they are valid and that the
         correct amount have been passed in."""
         attributes = {}
+        # if self.__class__.__name__ == "RulesLayerYDimension":
+        #     pprint(kwargs)
         for key, argument in kwargs.items():
             mapped_key = self.map_bound(key)
             # is valid bound descriptor and arg is Attribute
